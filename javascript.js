@@ -1,4 +1,4 @@
-function createCell() {
+function createBoardCell() {
     let value = 0;
 
     const getValue = () => value;
@@ -19,7 +19,7 @@ function createGameboard() {
     for (let i = 0; i < ROWS; i++) {
         gameboard[i] = [];
         for (let j = 0; j < COLUMNS; j++) {
-            gameboard[i].push(createCell());
+            gameboard[i].push(createBoardCell());
         }
     }
 
