@@ -25,7 +25,9 @@ function createGameboard() {
     }
 
     const printGameboard = () => {
-        const boardWithCellValues = gameboard.map((row) => row.map(cell => cell.getValue()));
+        const boardWithCellValues = gameboard.map((row) =>
+            row.map((cell) => cell.getValue())
+        );
         console.log(boardWithCellValues);
     };
 
@@ -77,38 +79,44 @@ function createGameboard() {
             }
         }
         return false;
-    }
+    };
 
     const verifyTie = () => {
         return totalMoves === ROWS.toExponential(2) ? true : false;
-    }
+    };
 
-    return { printGameboard, placeToken , verifyWinner, verifyTie};
+    return { printGameboard, placeToken, verifyWinner, verifyTie };
 }
 
-const gameController = (function (playerOneName = "Player One", playerTwoName = "Player Two") {
-    const players = {
-        playerOne: {
+const gameController = (function (
+    playerOneName = "Player One",
+    playerTwoName = "Player Two"
+) {
+    const players = [
+        {
             name: playerOneName,
-            token: 1
+            token: 1,
         },
-        playerTwo: {
+        {
             name: playerTwoName,
-            token: 2
-        }
-    }
+            token: 2,
+        },
+    ];
 
-    let activePlayer = players.playerOne;
-    const switchPlayer = () => {
-        activePlayer = (activePlayer === players.playerOne) ? players.playerTwo : players.playerOne;
-    }
+    let activePlayer = players[0];
+    const switchActivePlayer = () => {
+        activePlayer =
+            activePlayer === players[0]
+                ? players[1]
+                : players[0];
+    };
 
-    const playRound = () => {
+    const getPlayer = () => activePlayer;
 
-    }
+    const playRound = () => {};
 
-    return { playRound}
-})()
+    return { getPlayer, switchActivePlayer,  playRound };
+})();
 
 let test = createGameboard();
 test.placeToken(0, 0, 2);
