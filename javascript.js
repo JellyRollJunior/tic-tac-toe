@@ -113,12 +113,8 @@ const gameController = (function (
     };
     const getActivePlayer = () => activePlayer;
 
-    let gameboard;
+    let gameboard = createGameboard();
     const playRound = (row, column) => {
-        // instantiate board if first round
-        if (gameboard === undefined) {
-            gameboard = createGameboard();
-        }
         // place token
         gameboard.placeToken(row, column, getActivePlayer().token);
         // verify winner + tie
@@ -129,3 +125,19 @@ const gameController = (function (
 
     return { getActivePlayer,  playRound };
 })();
+
+// gameboard debug
+let test = createGameboard();
+test.printGameboard();
+test.verifyWinner(2);
+
+// gamecontroller
+gameController.playRound(0, 0);
+gameController.playRound(0, 1);
+gameController.playRound(1, 1);
+gameController.playRound(0, 2);
+gameController.playRound(2, 2);
+gameController.playRound(2, 1);
+gameController.playRound(1, 2);
+gameController.playRound(1, 0);
+gameController.playRound(1, 0);
