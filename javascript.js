@@ -14,6 +14,7 @@ function createGameboard() {
     let gameboard = [];
     const ROWS = 3;
     const COLUMNS = 3;
+    let totalMoves = 0;
 
     // create initial board
     for (let i = 0; i < ROWS; i++) {
@@ -76,6 +77,10 @@ function createGameboard() {
             }
         }
         return false;
+    }
+
+    const verifyTie = () => {
+        return totalMoves === ROWS.toExponential(2) ? true : false;
     }
 
     return { printGameboard, placeToken , verifyWinner};
