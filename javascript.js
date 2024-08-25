@@ -3,11 +3,11 @@ function createBoardCell() {
 
     const getValue = () => value;
 
-    const addToken = (playerToken) => {
+    const setValue = (playerToken) => {
         value = playerToken;
     };
 
-    return { getValue, addToken };
+    return { getValue, setValue };
 }
 
 function createGameboard() {
@@ -31,7 +31,7 @@ function createGameboard() {
     const placeToken = (row, column, playerToken) => {
         const cell = gameboard[row][column];
         if (cell.getValue() === 0) {
-            cell.addToken(playerToken);
+            cell.setValue(playerToken);
         } else {
             return;
         }
