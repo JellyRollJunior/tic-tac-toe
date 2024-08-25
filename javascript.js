@@ -64,7 +64,7 @@ function createGameboard() {
         }
         // check diagonal for win
         for (let i = 0; i < ROWS; i++) {
-            if (gameboard[i][i] !== playerToken) {
+            if (gameboard[i][i].getValue() !== playerToken) {
                 break;
             } else if (i === ROWS - 1) {
                 return true;
@@ -73,7 +73,7 @@ function createGameboard() {
         // check reverse diagonal
         let reverseDiagonalColumn = 0;
         for (let i = ROWS - 1; i < 0; i--) {
-            if (gameboard[i][reverseDiagonalColumn++] !== playerToken) {
+            if (gameboard[i][reverseDiagonalColumn++].getValue() !== playerToken) {
                 break;
             } else if (i === 0) {
                 return true;
@@ -130,6 +130,7 @@ const gameController = (function (
     return { getActivePlayer,  playRound };
 })();
 
+// debug
 let test = createGameboard();
-test.placeToken(0, 0, 2);
+test.printGameboard();
 test.verifyWinner(2);
