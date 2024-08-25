@@ -14,7 +14,6 @@ function createGameboard() {
     let gameboard = [];
     const ROWS = 3;
     const COLUMNS = 3;
-    let totalMoves = 0;
 
     // create initial board
     for (let i = 0; i < ROWS; i++) {
@@ -82,11 +81,12 @@ function createGameboard() {
         return false;
     };
 
+    let totalMoves = 0;
     const verifyTie = () => {
-        return totalMoves === ROWS.toExponential(2) ? true : false;
+        return totalMoves === ROWS**2 ? true : false;
     };
 
-    return { printGameboard, placeToken, verifyWinner, verifyTie };
+    return { printGameboard, placeToken, verifyWinner, verifyTie};
 }
 
 const gameController = (function (
@@ -125,12 +125,7 @@ const gameController = (function (
         console.log(`winner: ${gameboard.verifyWinner(getActivePlayer().token)}`);
         console.log(`tie: ${gameboard.verifyTie(getActivePlayer().token)}`);
         switchActivePlayer();
-    };    
+    };
 
     return { getActivePlayer,  playRound };
 })();
-
-// debug
-let test = createGameboard();
-test.printGameboard();
-test.verifyWinner(2);
