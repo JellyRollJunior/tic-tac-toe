@@ -3,8 +3,8 @@ function createBoardCell() {
 
     const getValue = () => value;
 
-    const addToken = (player) => {
-        value = player;
+    const addToken = (playerToken) => {
+        value = playerToken;
     };
 
     return { getValue, addToken };
@@ -24,13 +24,21 @@ function createGameboard() {
     }
 
     const printGameboard = () => {
-        const boardWithCellValues = gameboard.map((row) => {
-            row.map((cell) => {
-                return cell.getValue();
-            });
-        });
+        const boardWithCellValues = gameboard.map((row) => row.map(cell => cell.getValue()));
         console.log(boardWithCellValues);
     };
 
-    return { printGameboard };
+    const placeToken = (row, column, playerToken) => {
+        const cell = gameboard[row][column];
+        // check if cell is occupied
+        if (cell.getValue() === 0) {
+            cell.addToken(playerToken);
+        } else {
+            return;
+        }
+    };
+
+    return { gameboard, printGameboard, placeToken };
 }
+
+let testBoard = createGameboard();
