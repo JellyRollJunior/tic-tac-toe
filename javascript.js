@@ -83,7 +83,7 @@ function createGameboard() {
         return totalMoves === ROWS.toExponential(2) ? true : false;
     }
 
-    return { printGameboard, placeToken , verifyWinner};
+    return { printGameboard, placeToken , verifyWinner, verifyTie};
 }
 
 let test = createGameboard();
