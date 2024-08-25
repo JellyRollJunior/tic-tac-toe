@@ -87,16 +87,27 @@ function createGameboard() {
 }
 
 const gameController = (function (playerOneName = "Player One", playerTwoName = "Player Two") {
-    const playerOne = {
-        name: playerOneName,
-        token: 1
-    }
-    const playerTwo = {
-        name: playerTwoName,
-        token: 2
+    const players = {
+        playerOne: {
+            name: playerOneName,
+            token: 1
+        },
+        playerTwo: {
+            name: playerTwoName,
+            token: 2
+        }
     }
 
-    
+    let activePlayer = players.playerOne;
+    const switchPlayer = () => {
+        activePlayer = (activePlayer === players.playerOne) ? players.playerTwo : players.playerOne;
+    }
+
+    const playRound = () => {
+
+    }
+
+    return { playRound}
 })()
 
 let test = createGameboard();
