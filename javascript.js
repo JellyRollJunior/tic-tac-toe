@@ -35,6 +35,7 @@ function createGameboard() {
         const cell = gameboard[row][column];
         if (cell.getValue() === 0) {
             cell.setValue(playerToken);
+            totalMoves++;
         } else {
             return;
         }
@@ -110,12 +111,23 @@ const gameController = (function (
                 ? players[1]
                 : players[0];
     };
+    const getActivePlayer = () => activePlayer;
 
-    const getPlayer = () => activePlayer;
+    let gameboard;
+    const playRound = (row, column) => {
+        // instantiate board if first round
+        if (gameboard === undefined) {
+            gameboard = createGameboard();
+        }
+        // place token
+        gameboard.placeToken(row, column, getActivePlayer().token);
+        // verify winner + tie
+        console.log(`winner: ${gameboard.verifyWinner(getActivePlayer().token)}`);
+        console.log(`tie: ${gameboard.verifyTie(getActivePlayer().token)}`);
+        switchActivePlayer();
+    };    
 
-    const playRound = () => {};
-
-    return { getPlayer, switchActivePlayer,  playRound };
+    return { getActivePlayer,  playRound };
 })();
 
 let test = createGameboard();
