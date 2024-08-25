@@ -86,6 +86,19 @@ function createGameboard() {
     return { printGameboard, placeToken , verifyWinner, verifyTie};
 }
 
+const gameController = (function (playerOneName = "Player One", playerTwoName = "Player Two") {
+    const playerOne = {
+        name: playerOneName,
+        token: 1
+    }
+    const playerTwo = {
+        name: playerTwoName,
+        token: 2
+    }
+
+    
+})()
+
 let test = createGameboard();
 test.placeToken(0, 0, 2);
 test.verifyWinner(2);
