@@ -75,7 +75,7 @@ function createBoardGame() {
         }
         // check reverse diagonal
         let reverseDiagonalColumn = 0;
-        for (let i = ROWS - 1; i < 0; i--) {
+        for (let i = ROWS - 1; i >= 0; i--) {
             if (board[i][reverseDiagonalColumn++].getValue() !== playerToken) {
                 break;
             } else if (i === 0) {
