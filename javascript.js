@@ -116,28 +116,21 @@ const gameController = (function (
     let gameboard = createGameboard();
     const playRound = (row, column) => {
         // place token
+        console.log(`Dropping ${getActivePlayer().name}'s token in `)
         gameboard.placeToken(row, column, getActivePlayer().token);
         // verify winner + tie
         console.log(`winner: ${gameboard.verifyWinner(getActivePlayer().token)}`);
         console.log(`tie: ${gameboard.verifyTie(getActivePlayer().token)}`);
         switchActivePlayer();
+        printNewRoundMessage();
     };
+
+    const printNewRoundMessage = () => {
+        gameboard.printGameboard();
+        console.log(`${getActivePlayer().name}'s turn`);
+    }
+
+    printNewRoundMessage();
 
     return { getActivePlayer,  playRound };
 })();
-
-// gameboard debug
-let test = createGameboard();
-test.printGameboard();
-test.verifyWinner(2);
-
-// gamecontroller
-gameController.playRound(0, 0);
-gameController.playRound(0, 1);
-gameController.playRound(1, 1);
-gameController.playRound(0, 2);
-gameController.playRound(2, 2);
-gameController.playRound(2, 1);
-gameController.playRound(1, 2);
-gameController.playRound(1, 0);
-gameController.playRound(1, 0);
