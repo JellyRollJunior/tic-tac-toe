@@ -144,6 +144,7 @@ const GameController = (function (
 
 const DisplayController = (function() {
     const grid = document.querySelector(".grid");
+    const activePlayerText = document.querySelector(".active-player-name");
 
     const displayGameGrid = () => {
         grid.textContent = "";
@@ -163,12 +164,21 @@ const DisplayController = (function() {
     const clickHandlerBoard = (event) => {
         const target = event.target
         GameController.playRound(target.dataset.row, target.dataset.column);
-        displayGameGrid();
+        updateScreen();
     }
     grid.addEventListener("click", clickHandlerBoard)
 
-    // initial board render
-    displayGameGrid();
+    const displayActivePlayer = () => {
+        activePlayerText.textContent = GameController.getActivePlayer().name;
+    }
 
-    return { displayGameGrid }
+    const updateScreen = () => {
+        displayGameGrid();
+        displayActivePlayer();
+    }
+
+    // initial render
+    updateScreen();
+
+    return { updateScreen }
 })();
