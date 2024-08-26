@@ -53,10 +53,10 @@ function createGameboard() {
         }
         // check columns for win
         for (let i = 0; i < COLUMNS; i++) {
-            for (let j = 0; i < ROWS; j++) {
+            for (let j = 0; j < ROWS; j++) {
                 if (gameboard[j][i].getValue() !== playerToken) {
                     break;
-                } else if (i === ROWS - 1) {
+                } else if (j === ROWS - 1) {
                     return true;
                 }
             }
@@ -134,3 +134,11 @@ const gameController = (function (
 
     return { getActivePlayer,  playRound };
 })();
+
+// gameboard debug
+let test = createGameboard();
+test.printGameboard();
+test.placeToken(0, 0, 1);
+test.placeToken(0, 1, 2);
+test.placeToken(0, 2, 1);
+test.verifyWinner(1);
