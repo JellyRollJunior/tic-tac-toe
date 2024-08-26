@@ -142,15 +142,18 @@ const GameController = (function (
     return { getBoardGame, getActivePlayer,  playRound};
 })();
 
-const displayController = (function() {
+const DisplayController = (function() {
     const grid = document.querySelector(".grid");
 
     const displayGameGrid = () => {
-        const gameboard = GameController.getBoardGame().getBoard();
-        for (const row of gameboard) {
-            for (const cell of row) {
+        const boardGame = GameController.getBoardGame();
+        const board = boardGame.getBoard();
+        for (let row = 0; row < boardGame.getRows(); row++) {
+            for (let col = 0; col < boardGame.getColumns(); col++) {
                 const cellButton = document.createElement("button");
-                cellButton.textContent = cell.getValue();
+                cellButton.setAttribute("data-row", row);
+                cellButton.setAttribute("data-column", col);
+                cellButton.textContent = board[row][col].getValue();
                 grid.appendChild(cellButton);
             }
         }
