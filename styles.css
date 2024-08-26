@@ -21,6 +21,12 @@ h1 {
     border: 2px solid black;
 }
 
+.player-turn {
+    padding: 8px;
+    text-align: center;
+    border: 2px solid black;
+}
+
 .grid {
     --cell-height: 100px;
     --cell-width: 100px;
