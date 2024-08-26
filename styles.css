@@ -5,11 +5,15 @@
     margin: 0;
 }
 
-.wrapper {
+.center-wrapper {
     display: flex;
-    flex-direction: column;
     justify-content: center;
 }
+
+h1 {
+    text-align: center;
+}
+
 .grid {
     --cell-height: 100px;
     --cell-width: 100px;

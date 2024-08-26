@@ -154,5 +154,8 @@ const displayController = (function() {
         }
     }
 
+    // initial board render
+    displayGameGrid();
+
     return { displayGameGrid }
 })();
