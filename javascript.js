@@ -146,6 +146,7 @@ const DisplayController = (function() {
     const grid = document.querySelector(".grid");
 
     const displayGameGrid = () => {
+        grid.textContent = "";
         const boardGame = GameController.getBoardGame();
         const board = boardGame.getBoard();
         for (let row = 0; row < boardGame.getRows(); row++) {
@@ -158,6 +159,13 @@ const DisplayController = (function() {
             }
         }
     }
+
+    const clickHandlerBoard = (event) => {
+        const target = event.target
+        GameController.playRound(target.dataset.row, target.dataset.column);
+        displayGameGrid();
+    }
+    grid.addEventListener("click", clickHandlerBoard)
 
     // initial board render
     displayGameGrid();
