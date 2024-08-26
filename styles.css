@@ -10,8 +10,15 @@
     justify-content: center;
 }
 
+.center-wrapper > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 h1 {
     text-align: center;
+    border: 2px solid black;
 }
 
 .grid {
@@ -22,4 +29,7 @@ h1 {
     grid-template-rows: repeat(3, var(--cell-height));
     grid-template-columns: repeat(3, var(--cell-width));
     gap: 8px;
+
+    border: 2px solid black;
+    padding: 8px;
 }
