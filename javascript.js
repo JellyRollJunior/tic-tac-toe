@@ -143,7 +143,7 @@ const gameController = (function (
 const displayController = (function() {
 
     const displayGameGrid = () => {
-        const grid = document.querySelector("html");
+        const grid = document.querySelector(".grid");
         const gameboard = gameController.getGameboard()
         for (const row of gameboard) {
             for (const cell of row) {
