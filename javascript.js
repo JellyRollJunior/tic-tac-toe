@@ -23,6 +23,8 @@ function createGameboard() {
         }
     }
 
+    const getGameboard = () => gameboard;
+
     const printGameboard = () => {
         const boardWithCellValues = gameboard.map((row) =>
             row.map((cell) => cell.getValue())
@@ -86,7 +88,7 @@ function createGameboard() {
         return totalMoves === ROWS**2 ? true : false;
     };
 
-    return { printGameboard, placeToken, verifyWinner, verifyTie};
+    return { getGameboard, printGameboard, placeToken, verifyWinner, verifyTie};
 }
 
 const gameController = (function (
@@ -114,6 +116,8 @@ const gameController = (function (
     const getActivePlayer = () => activePlayer;
 
     let gameboard = createGameboard();
+    const getGameboard = () => gameboard;
+    
     const playRound = (row, column) => {
         // place token
         console.log(`Dropping ${getActivePlayer().name}'s token in `)
@@ -130,15 +134,8 @@ const gameController = (function (
         console.log(`${getActivePlayer().name}'s turn`);
     }
 
+    // initial game start message
     printNewRoundMessage();
 
-    return { getActivePlayer,  playRound };
+    return { getGameboard, getActivePlayer,  playRound};
 })();
-
-// gameboard debug
-let test = createGameboard();
-test.printGameboard();
-test.placeToken(0, 0, 1);
-test.placeToken(0, 1, 2);
-test.placeToken(0, 2, 1);
-test.verifyWinner(1);
