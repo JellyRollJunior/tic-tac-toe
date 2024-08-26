@@ -10,30 +10,32 @@ function createBoardCell() {
     return { getValue, setValue };
 }
 
-function createGameboard() {
-    let gameboard = [];
+function createBoardGame() {
+    let board = [];
     const ROWS = 3;
     const COLUMNS = 3;
 
     // create initial board
     for (let i = 0; i < ROWS; i++) {
-        gameboard[i] = [];
+        board[i] = [];
         for (let j = 0; j < COLUMNS; j++) {
-            gameboard[i].push(createBoardCell());
+            board[i].push(createBoardCell());
         }
     }
 
-    const getGameboard = () => gameboard;
+    const getBoard = () => board;
+    const getRows = () => ROWS;
+    const getColumns = () => COLUMNS;
 
-    const printGameboard = () => {
-        const boardWithCellValues = gameboard.map((row) =>
+    const printBoard = () => {
+        const boardWithCellValues = board.map((row) =>
             row.map((cell) => cell.getValue())
         );
         console.log(boardWithCellValues);
     };
 
     const placeToken = (row, column, playerToken) => {
-        const cell = gameboard[row][column];
+        const cell = board[row][column];
         if (cell.getValue() === 0) {
             cell.setValue(playerToken);
             totalMoves++;
@@ -46,7 +48,7 @@ function createGameboard() {
         // check row for win
         for (let i = 0; i < ROWS; i++) {
             for (let j = 0; j < COLUMNS; j++) {
-                if (gameboard[i][j].getValue() !== playerToken) {
+                if (board[i][j].getValue() !== playerToken) {
                     break;
                 } else if (j === COLUMNS - 1) {
                     return true;
@@ -56,7 +58,7 @@ function createGameboard() {
         // check columns for win
         for (let i = 0; i < COLUMNS; i++) {
             for (let j = 0; j < ROWS; j++) {
-                if (gameboard[j][i].getValue() !== playerToken) {
+                if (board[j][i].getValue() !== playerToken) {
                     break;
                 } else if (j === ROWS - 1) {
                     return true;
@@ -65,7 +67,7 @@ function createGameboard() {
         }
         // check diagonal for win
         for (let i = 0; i < ROWS; i++) {
-            if (gameboard[i][i].getValue() !== playerToken) {
+            if (board[i][i].getValue() !== playerToken) {
                 break;
             } else if (i === ROWS - 1) {
                 return true;
@@ -74,7 +76,7 @@ function createGameboard() {
         // check reverse diagonal
         let reverseDiagonalColumn = 0;
         for (let i = ROWS - 1; i < 0; i--) {
-            if (gameboard[i][reverseDiagonalColumn++].getValue() !== playerToken) {
+            if (board[i][reverseDiagonalColumn++].getValue() !== playerToken) {
                 break;
             } else if (i === 0) {
                 return true;
@@ -88,10 +90,10 @@ function createGameboard() {
         return totalMoves === ROWS**2 ? true : false;
     };
 
-    return { getGameboard, printGameboard, placeToken, verifyWinner, verifyTie};
+    return { getRows, getColumns, getBoard, printBoard, placeToken, verifyWinner, verifyTie};
 }
 
-const gameController = (function (
+const GameController = (function (
     playerOneName = "Player One",
     playerTwoName = "Player Two"
 ) {
@@ -115,36 +117,36 @@ const gameController = (function (
     };
     const getActivePlayer = () => activePlayer;
 
-    let gameboard = createGameboard();
-    const getGameboard = () => gameboard.getGameboard();
+    let boardGame = createBoardGame();
+    const getBoardGame = () => boardGame;
     
     const playRound = (row, column) => {
         // place token
         console.log(`Dropping ${getActivePlayer().name}'s token in `)
-        gameboard.placeToken(row, column, getActivePlayer().token);
+        boardGame.placeToken(row, column, getActivePlayer().token);
         // verify winner + tie
-        console.log(`winner: ${gameboard.verifyWinner(getActivePlayer().token)}`);
-        console.log(`tie: ${gameboard.verifyTie(getActivePlayer().token)}`);
+        console.log(`winner: ${boardGame.verifyWinner(getActivePlayer().token)}`);
+        console.log(`tie: ${boardGame.verifyTie(getActivePlayer().token)}`);
         switchActivePlayer();
         printNewRoundMessage();
     };
 
     const printNewRoundMessage = () => {
-        gameboard.printGameboard();
+        boardGame.printBoard();
         console.log(`${getActivePlayer().name}'s turn`);
     }
 
     // initial game start message
     printNewRoundMessage();
 
-    return { getGameboard, getActivePlayer,  playRound};
+    return { getBoardGame, getActivePlayer,  playRound};
 })();
 
 const displayController = (function() {
+    const grid = document.querySelector(".grid");
 
     const displayGameGrid = () => {
-        const grid = document.querySelector(".grid");
-        const gameboard = gameController.getGameboard()
+        const gameboard = GameController.getBoardGame().getBoard();
         for (const row of gameboard) {
             for (const cell of row) {
                 const cellButton = document.createElement("button");
