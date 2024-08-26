@@ -116,7 +116,7 @@ const gameController = (function (
     const getActivePlayer = () => activePlayer;
 
     let gameboard = createGameboard();
-    const getGameboard = () => gameboard;
+    const getGameboard = () => gameboard.getGameboard();
     
     const playRound = (row, column) => {
         // place token
@@ -138,4 +138,21 @@ const gameController = (function (
     printNewRoundMessage();
 
     return { getGameboard, getActivePlayer,  playRound};
+})();
+
+const displayController = (function() {
+
+    const displayGameGrid = () => {
+        const grid = document.querySelector("html");
+        const gameboard = gameController.getGameboard()
+        for (const row of gameboard) {
+            for (const cell of row) {
+                const cellButton = document.createElement("button");
+                cellButton.textContent = cell.getValue();
+                grid.appendChild(cellButton);
+            }
+        }
+    }
+
+    return { displayGameGrid }
 })();
