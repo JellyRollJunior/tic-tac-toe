@@ -100,11 +100,11 @@ const GameController = (function (
     const players = [
         {
             name: playerOneName,
-            token: 1,
+            token: "X",
         },
         {
             name: playerTwoName,
-            token: 2,
+            token: "O",
         },
     ];
 
@@ -155,7 +155,7 @@ const DisplayController = (function() {
                 const cellButton = document.createElement("button");
                 cellButton.setAttribute("data-row", row);
                 cellButton.setAttribute("data-column", col);
-                cellButton.textContent = board[row][col].getValue();
+                cellButton.textContent = board[row][col].getValue() === 0 ? "" : board[row][col].getValue();
                 grid.appendChild(cellButton);
             }
         }
