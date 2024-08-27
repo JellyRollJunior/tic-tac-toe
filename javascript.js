@@ -138,8 +138,10 @@ const GameController = (function (
             console.log(`tie: ${boardGame.verifyTie(getActivePlayer().token)}`);
             switchActivePlayer();
             printNewRoundMessage();
+            return true;
         } else {
             console.log(`Please select an unoccupied cell!`);
+            return false;
         }
     };
 
@@ -156,7 +158,8 @@ const GameController = (function (
 
 const DisplayController = (function () {
     const grid = document.querySelector(".grid");
-    const activePlayerText = document.querySelector(".active-player-name");
+    const activePlayer = document.querySelector(".active-player-name");
+    const alert = document.querySelector(".alerts");
 
     const displayGameGrid = () => {
         grid.textContent = "";
@@ -178,18 +181,20 @@ const DisplayController = (function () {
 
     const clickHandlerBoard = (event) => {
         const target = event.target;
-        GameController.playRound(target.dataset.row, target.dataset.column);
-        updateScreen();
+        GameController.playRound(target.dataset.row, target.dataset.column)
+            ? updateScreen()
+            : alert.textContent = "Please select an unoccupied cell!"
     };
     grid.addEventListener("click", clickHandlerBoard);
 
     const displayActivePlayer = () => {
-        activePlayerText.textContent = GameController.getActivePlayer().name;
+        activePlayer.textContent = GameController.getActivePlayer().name;
     };
 
     const updateScreen = () => {
         displayGameGrid();
         displayActivePlayer();
+        alert.textContent = "";
     };
 
     // initial render

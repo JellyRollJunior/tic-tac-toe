@@ -22,7 +22,7 @@ h1 {
     border: 2px solid black;
 }
 
-.player-turn {
+.center-wrapper > div > div {
     padding: 8px;
     text-align: center;
     border: 2px solid black;
