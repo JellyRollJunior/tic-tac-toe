@@ -39,12 +39,13 @@ function createBoardGame() {
         if (cell.getValue() === 0) {
             cell.setValue(playerToken);
             totalMoves++;
+            return true;
         } else {
-            return;
+            return false;
         }
     };
 
-    const verifyWinner = (playerToken) => {
+    const verifyWin = (playerToken) => {
         // check row for win
         for (let i = 0; i < ROWS; i++) {
             for (let j = 0; j < COLUMNS; j++) {
@@ -87,10 +88,18 @@ function createBoardGame() {
 
     let totalMoves = 0;
     const verifyTie = () => {
-        return totalMoves === ROWS**2 ? true : false;
+        return totalMoves === ROWS ** 2 ? true : false;
     };
 
-    return { getRows, getColumns, getBoard, printBoard, placeToken, verifyWinner, verifyTie};
+    return {
+        getRows,
+        getColumns,
+        getBoard,
+        printBoard,
+        placeToken,
+        verifyWin,
+        verifyTie,
+    };
 }
 
 const GameController = (function (
@@ -110,39 +119,42 @@ const GameController = (function (
 
     let activePlayer = players[0];
     const switchActivePlayer = () => {
-        activePlayer =
-            activePlayer === players[0]
-                ? players[1]
-                : players[0];
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
     const getActivePlayer = () => activePlayer;
 
     let boardGame = createBoardGame();
     const getBoardGame = () => boardGame;
-    
+
     const playRound = (row, column) => {
-        // place token
-        console.log(`Dropping ${getActivePlayer().name}'s token in `)
-        boardGame.placeToken(row, column, getActivePlayer().token);
-        // verify winner + tie
-        console.log(`winner: ${boardGame.verifyWinner(getActivePlayer().token)}`);
-        console.log(`tie: ${boardGame.verifyTie(getActivePlayer().token)}`);
-        switchActivePlayer();
-        printNewRoundMessage();
+        if (boardGame.placeToken(row, column, getActivePlayer().token)) {
+            console.log(
+                `Dropping ${
+                    getActivePlayer().name
+                }'s token in Row: ${row} Column: ${column}`
+            );
+            // verify winner + tie
+            console.log(`win: ${boardGame.verifyWin(getActivePlayer().token)}`);
+            console.log(`tie: ${boardGame.verifyTie(getActivePlayer().token)}`);
+            switchActivePlayer();
+            printNewRoundMessage();
+        } else {
+            console.log(`Please select an unoccupied cell!`);
+        }
     };
 
     const printNewRoundMessage = () => {
         boardGame.printBoard();
         console.log(`${getActivePlayer().name}'s turn`);
-    }
+    };
 
     // initial game start message
     printNewRoundMessage();
 
-    return { getBoardGame, getActivePlayer,  playRound};
+    return { getBoardGame, getActivePlayer, playRound };
 })();
 
-const DisplayController = (function() {
+const DisplayController = (function () {
     const grid = document.querySelector(".grid");
     const activePlayerText = document.querySelector(".active-player-name");
 
@@ -155,30 +167,33 @@ const DisplayController = (function() {
                 const cellButton = document.createElement("button");
                 cellButton.setAttribute("data-row", row);
                 cellButton.setAttribute("data-column", col);
-                cellButton.textContent = board[row][col].getValue() === 0 ? "" : board[row][col].getValue();
+                cellButton.textContent =
+                    board[row][col].getValue() === 0
+                        ? ""
+                        : board[row][col].getValue();
                 grid.appendChild(cellButton);
             }
         }
-    }
+    };
 
     const clickHandlerBoard = (event) => {
-        const target = event.target
+        const target = event.target;
         GameController.playRound(target.dataset.row, target.dataset.column);
         updateScreen();
-    }
-    grid.addEventListener("click", clickHandlerBoard)
+    };
+    grid.addEventListener("click", clickHandlerBoard);
 
     const displayActivePlayer = () => {
         activePlayerText.textContent = GameController.getActivePlayer().name;
-    }
+    };
 
     const updateScreen = () => {
         displayGameGrid();
         displayActivePlayer();
-    }
+    };
 
     // initial render
     updateScreen();
 
-    return { updateScreen }
+    return { updateScreen };
 })();
