@@ -106,8 +106,8 @@ const gameState = Object.freeze({
     ONGOING: Symbol("ongoing"),
     WIN: Symbol("win"),
     TIE: Symbol("tie"),
-    ERROR: Symbol("error")
-})
+    ERROR: Symbol("error"),
+});
 
 const GameController = (function (
     playerOneName = "Player One",
@@ -134,21 +134,27 @@ const GameController = (function (
     const getBoardGame = () => boardGame;
 
     const playRound = (row, column) => {
-        if (boardGame.placeToken(row, column, getActivePlayer().token)) {
+        const playerToken = getActivePlayer().token;
+        if (boardGame.placeToken(row, column, playerToken)) {
             console.log(
                 `Dropping ${
                     getActivePlayer().name
                 }'s token in Row: ${row} Column: ${column}`
             );
-            // verify winner + tie
-            console.log(`win: ${boardGame.verifyWin(getActivePlayer().token)}`);
-            console.log(`tie: ${boardGame.verifyTie(getActivePlayer().token)}`);
+            // verify win or tie
+            if (boardGame.verifyWin(playerToken)) {
+                console.log(`win: true`);
+                return gameState.WIN;
+            } else if (boardGame.verifyTie(playerToken)) {
+                console.log(`tie: true`);
+                return gameState.TIE;
+            }
             switchActivePlayer();
             printNewRoundMessage();
-            return true;
+            return gameState.ONGOING;
         } else {
             console.log(`Please select an unoccupied cell!`);
-            return false;
+            return gameState.ERROR;
         }
     };
 
@@ -188,9 +194,25 @@ const DisplayController = (function () {
 
     const clickHandlerBoard = (event) => {
         const target = event.target;
-        GameController.playRound(target.dataset.row, target.dataset.column)
-            ? updateScreen()
-            : (alert.textContent = "Please select an unoccupied cell!");
+        const roundResult = GameController.playRound(target.dataset.row, target.dataset.column);
+        switch(roundResult) {
+            case gameState.WIN:
+                updateScreen();
+                (alert.textContent = `${GameController.getActivePlayer().name} Wins!`);
+                break;
+            case gameState.TIE:
+                updateScreen();
+                (alert.textContent = `Both players tie!`);
+                break;
+            case gameState.ONGOING:
+                updateScreen();
+                break;
+            case gameState.ERROR:
+                (alert.textContent = "Please select an unoccupied cell!");
+                break;
+            default:
+                (alert.textContent = "Unknown error. Please do not cry");
+        }
     };
     grid.addEventListener("click", clickHandlerBoard);
 
