@@ -102,7 +102,7 @@ function createBoardGame() {
     };
 }
 
-const gameState = Object.freeze({
+const gameStates = Object.freeze({
     ONGOING: Symbol("ongoing"),
     WIN: Symbol("win"),
     TIE: Symbol("tie"),
@@ -130,6 +130,9 @@ const GameController = (function (
     };
     const getActivePlayer = () => activePlayer;
 
+    let currentGameState = gameStates.ONGOING;
+    const getCurrentGameState = () => currentGameState;
+
     let boardGame = createBoardGame();
     const getBoardGame = () => boardGame;
 
@@ -141,20 +144,21 @@ const GameController = (function (
                     getActivePlayer().name
                 }'s token in Row: ${row} Column: ${column}`
             );
-            // verify win or tie
             if (boardGame.verifyWin(playerToken)) {
                 console.log(`win: true`);
-                return gameState.WIN;
+                currentGameState = gameStates.WIN;
+                return;
             } else if (boardGame.verifyTie(playerToken)) {
                 console.log(`tie: true`);
-                return gameState.TIE;
+                currentGameState = gameStates.TIE;
+                return;
             }
             switchActivePlayer();
             printNewRoundMessage();
-            return gameState.ONGOING;
+            currentGameState = gameStates.ONGOING;
         } else {
             console.log(`Please select an unoccupied cell!`);
-            return gameState.INVALID_MOVE;
+            currentGameState = gameStates.INVALID_MOVE;
         }
     };
 
@@ -166,7 +170,7 @@ const GameController = (function (
     // initial game start message
     printNewRoundMessage();
 
-    return { getBoardGame, getActivePlayer, playRound };
+    return { getCurrentGameState, getBoardGame, getActivePlayer, playRound };
 })();
 
 const DisplayController = (function () {
@@ -194,24 +198,30 @@ const DisplayController = (function () {
 
     const clickHandlerBoard = (event) => {
         const target = event.target;
-        const roundResult = GameController.playRound(target.dataset.row, target.dataset.column);
-        switch(roundResult) {
-            case gameState.WIN:
+        GameController.playRound(
+            target.dataset.row,
+            target.dataset.column
+        );
+        const roundResult = GameController.getCurrentGameState();
+        switch (roundResult) {
+            case gameStates.WIN:
                 updateScreen();
-                (alert.textContent = `${GameController.getActivePlayer().name} Wins!`);
+                alert.textContent = `${
+                    GameController.getActivePlayer().name
+                } Wins!`;
                 break;
-            case gameState.TIE:
+            case gameStates.TIE:
                 updateScreen();
-                (alert.textContent = `Both players tie!`);
+                alert.textContent = `Both players tie!`;
                 break;
-            case gameState.ONGOING:
+            case gameStates.ONGOING:
                 updateScreen();
                 break;
-            case gameState.INVALID_MOVE:
-                (alert.textContent = "Please select an unoccupied cell!");
+            case gameStates.INVALID_MOVE:
+                alert.textContent = "Please select an unoccupied cell!";
                 break;
             default:
-                (alert.textContent = "Unknown error. Please do not cry");
+                alert.textContent = "Unknown error. Please do not cry";
         }
     };
     grid.addEventListener("click", clickHandlerBoard);
