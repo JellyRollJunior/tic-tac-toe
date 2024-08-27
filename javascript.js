@@ -102,6 +102,13 @@ function createBoardGame() {
     };
 }
 
+const gameState = Object.freeze({
+    ONGOING: Symbol("ongoing"),
+    WIN: Symbol("win"),
+    TIE: Symbol("tie"),
+    ERROR: Symbol("error")
+})
+
 const GameController = (function (
     playerOneName = "Player One",
     playerTwoName = "Player Two"
@@ -183,7 +190,7 @@ const DisplayController = (function () {
         const target = event.target;
         GameController.playRound(target.dataset.row, target.dataset.column)
             ? updateScreen()
-            : alert.textContent = "Please select an unoccupied cell!"
+            : (alert.textContent = "Please select an unoccupied cell!");
     };
     grid.addEventListener("click", clickHandlerBoard);
 
