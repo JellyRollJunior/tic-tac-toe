@@ -106,7 +106,7 @@ const gameState = Object.freeze({
     ONGOING: Symbol("ongoing"),
     WIN: Symbol("win"),
     TIE: Symbol("tie"),
-    ERROR: Symbol("error"),
+    INVALID_MOVE: Symbol("invalid move"),
 });
 
 const GameController = (function (
@@ -154,7 +154,7 @@ const GameController = (function (
             return gameState.ONGOING;
         } else {
             console.log(`Please select an unoccupied cell!`);
-            return gameState.ERROR;
+            return gameState.INVALID_MOVE;
         }
     };
 
@@ -207,7 +207,7 @@ const DisplayController = (function () {
             case gameState.ONGOING:
                 updateScreen();
                 break;
-            case gameState.ERROR:
+            case gameState.INVALID_MOVE:
                 (alert.textContent = "Please select an unoccupied cell!");
                 break;
             default:
