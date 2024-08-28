@@ -8,13 +8,21 @@
     <title>Tic - Tac - Toe</title>
   </head>
   <body>
+    <dialog>
+      <form>
+        <h3>Rename Players</h3>
+        <label for="player-one-name-input">Player One name: </label><input id="player-one-name-input" type="text" />
+        <label for="player-two-name-input">Player Two name: </label><input id="player-two-name-input" type="text" />
+        <button>Confirm</button>
+      </form>
+    </dialog>
     <div class="center-wrapper">
       <div>
         <h1 class="title-block">Tic - Tac - Toe</h1>
         <div class="title-block">Status: <span class="alerts"></span></div>
         <div class="button-container">
           <button class="start">Start Game</button>
-          <button class="set-name">Set player names</button>
+          <button class="set-name">Set Player Names</button>
         </div>
         <div class="grid"></div>
         <div class="title-block">

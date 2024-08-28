@@ -268,6 +268,13 @@ const DisplayController = (function () {
         alert.textContent = "";
     };
 
+    const diaglog = document.querySelector("dialog")
+    const clickHandlerSetPlayerNamesButton = (event) => {
+        diaglog.showModal();
+    }
+    const setPlayerNameButton = document.querySelector(".set-name");
+    setPlayerNameButton.addEventListener("click", clickHandlerSetPlayerNamesButton);
+
     // initial render
     updateScreen();
 

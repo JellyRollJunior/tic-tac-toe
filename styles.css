@@ -44,3 +44,8 @@
     border: 2px solid black;
     padding: 8px;
 }
+
+dialog {
+    margin: auto;
+    padding: 1rem;
+}
