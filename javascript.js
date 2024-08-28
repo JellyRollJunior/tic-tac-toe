@@ -269,11 +269,18 @@ const DisplayController = (function () {
     };
 
     const diaglog = document.querySelector("dialog")
-    const clickHandlerSetPlayerNamesButton = (event) => {
+    const clickHandlerSetPlayerNamesButton = () => {
         diaglog.showModal();
     }
     const setPlayerNameButton = document.querySelector(".set-name");
     setPlayerNameButton.addEventListener("click", clickHandlerSetPlayerNamesButton);
+
+    const confirmButton = document.querySelector("button[type=\"submit\"]");
+    const clickHandlerConfirmButton = (event) => {
+        event.preventDefault();
+        diaglog.close();
+    }
+    confirmButton.addEventListener("click", clickHandlerConfirmButton);
 
     // initial render
     updateScreen();
