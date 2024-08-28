@@ -217,6 +217,11 @@ const DisplayController = (function () {
     };
 
     const clickHandlerBoard = (event) => {
+        const currentGameState = GameController.getCurrentGameState();
+        if (currentGameState === gameStates.WIN || currentGameState == gameStates.TIE) {
+            alert.textContent = "Game over! Please restart to play again";
+            return;
+        }
         const target = event.target;
         GameController.playRound(target.dataset.row, target.dataset.column);
         const roundResult = GameController.getCurrentGameState();
