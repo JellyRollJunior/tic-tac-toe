@@ -109,17 +109,14 @@ const gameStates = Object.freeze({
     INVALID_MOVE: Symbol("invalid move"),
 });
 
-const GameController = (function (
-    playerOneName = "Player One",
-    playerTwoName = "Player Two"
-) {
-    const players = [
+const GameController = (function() {
+    let players = [
         {
-            name: playerOneName,
+            name: "Player One",
             token: "X",
         },
         {
-            name: playerTwoName,
+            name: "Player Two",
             token: "O",
         },
     ];
@@ -129,6 +126,11 @@ const GameController = (function (
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
     const getActivePlayer = () => activePlayer;
+
+    const setPlayerNames = (playerOneName = "Player One", playerTwoName = "Player Two") => {
+        players[0].name = playerOneName;
+        players[1].name = playerTwoName;
+    }
 
     let currentGameState = gameStates.ONGOING;
     const getCurrentGameState = () => currentGameState;
@@ -187,6 +189,7 @@ const GameController = (function (
         getCurrentGameState,
         getBoardGame,
         getActivePlayer,
+        setPlayerNames,
         playRound,
         restartGame,
     };
