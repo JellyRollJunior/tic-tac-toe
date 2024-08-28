@@ -167,10 +167,22 @@ const GameController = (function (
         console.log(`${getActivePlayer().name}'s turn`);
     };
 
+    const restartGame = () => {
+        boardGame = createBoardGame();
+        currentGameState = gameStates.ONGOING;
+        if (getActivePlayer() !== players[0]) switchActivePlayer();
+    };
+
     // initial game start message
     printNewRoundMessage();
 
-    return { getCurrentGameState, getBoardGame, getActivePlayer, playRound };
+    return {
+        getCurrentGameState,
+        getBoardGame,
+        getActivePlayer,
+        playRound,
+        restartGame,
+    };
 })();
 
 const DisplayController = (function () {
@@ -199,10 +211,7 @@ const DisplayController = (function () {
 
     const clickHandlerBoard = (event) => {
         const target = event.target;
-        GameController.playRound(
-            target.dataset.row,
-            target.dataset.column
-        );
+        GameController.playRound(target.dataset.row, target.dataset.column);
         const roundResult = GameController.getCurrentGameState();
         switch (roundResult) {
             case gameStates.WIN:
@@ -225,7 +234,13 @@ const DisplayController = (function () {
                 alert.textContent = "Unknown error. Please do not cry";
         }
     };
-    const clickHandlerStartButton = () =>  grid.addEventListener("click", clickHandlerBoard);
+
+    const clickHandlerStartButton = () => {
+        GameController.restartGame();
+        grid.addEventListener("click", clickHandlerBoard);
+        updateScreen();
+        startButton.textContent = "Restart game";
+    };
     startButton.addEventListener("click", clickHandlerStartButton);
 
     const displayActivePlayer = () => {
