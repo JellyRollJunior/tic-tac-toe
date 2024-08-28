@@ -16,20 +16,20 @@
     gap: 8px;
 }
 
-h1 {
+.title-block {
     text-align: center;
     padding: 8px;
     border: 2px solid black;
 }
 
-.center-wrapper > div > div {
-    padding: 8px;
-    text-align: center;
-    border: 2px solid black;
+.button-container {
+    display: flex;
+    gap: 8px;
 }
 
-.center-wrapper > div > button {
+.button-container > button {
     padding: 8px;
+    flex: 1;
 }
 
 .grid {

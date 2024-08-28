@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <script src="javascript.js" defer></script>
     <title>Tic - Tac - Toe</title>
@@ -10,11 +10,16 @@
   <body>
     <div class="center-wrapper">
       <div>
-        <h1>Tic - Tac - Toe</h1>
-        <div>Status: <span class="alerts"></span></div>
-        <button class="start">Start Game</button>
+        <h1 class="title-block">Tic - Tac - Toe</h1>
+        <div class="title-block">Status: <span class="alerts"></span></div>
+        <div class="button-container">
+          <button class="start">Start Game</button>
+          <button class="set-name">Set player names</button>
+        </div>
         <div class="grid"></div>
-        <div>Active player: <span class="active-player-name">Player One</span></div>
+        <div class="title-block">
+          Active player: <span class="active-player-name">Player One</span>
+        </div>
       </div>
     </div>
   </body>
