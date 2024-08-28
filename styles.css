@@ -28,6 +28,10 @@ h1 {
     border: 2px solid black;
 }
 
+.center-wrapper > div > button {
+    padding: 8px;
+}
+
 .grid {
     --cell-height: 100px;
     --cell-width: 100px;

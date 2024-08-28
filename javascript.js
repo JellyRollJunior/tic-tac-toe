@@ -177,6 +177,7 @@ const DisplayController = (function () {
     const grid = document.querySelector(".grid");
     const activePlayer = document.querySelector(".active-player-name");
     const alert = document.querySelector(".alerts");
+    const startButton = document.querySelector(".start");
 
     const displayGameGrid = () => {
         grid.textContent = "";
@@ -224,7 +225,8 @@ const DisplayController = (function () {
                 alert.textContent = "Unknown error. Please do not cry";
         }
     };
-    grid.addEventListener("click", clickHandlerBoard);
+    const clickHandlerStartButton = () =>  grid.addEventListener("click", clickHandlerBoard);
+    startButton.addEventListener("click", clickHandlerStartButton);
 
     const displayActivePlayer = () => {
         activePlayer.textContent = GameController.getActivePlayer().name;
