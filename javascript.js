@@ -276,6 +276,7 @@ const DisplayController = (function () {
     setPlayerNameButton.addEventListener("click", clickHandlerSetPlayerNamesButton);
 
     const confirmButton = document.querySelector("button[type=\"submit\"]");
+    const form = document.querySelector("form");
     const playerOneNameInput = document.querySelector("#player-one-name-input");
     const playerTwoNameInput = document.querySelector("#player-two-name-input");
     const clickHandlerConfirmButton = (event) => {
@@ -283,11 +284,19 @@ const DisplayController = (function () {
         const playerOneName = playerOneNameInput.value === "" ? undefined : playerOneNameInput.value;
         const playerTwoName = playerTwoNameInput.value === "" ? undefined : playerTwoNameInput.value;
         GameController.setPlayerNames(playerOneName, playerTwoName);
-        document.querySelector("form").reset();
+        form.reset();
         updateScreen();
         diaglog.close();
     }
     confirmButton.addEventListener("click", clickHandlerConfirmButton);
+
+    const cancelButton = document.querySelector(".cancel");
+    const clickHandlerCancelButton = (event) => {
+        event.preventDefault();
+        form.reset();
+        diaglog.close();
+    }
+    cancelButton.addEventListener("click", clickHandlerCancelButton);
 
     // initial render
     updateScreen();
