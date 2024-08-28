@@ -1,8 +1,6 @@
 function createBoardCell() {
     let value = 0;
-
     const getValue = () => value;
-
     const setValue = (playerToken) => {
         value = playerToken;
     };
@@ -120,17 +118,16 @@ const GameController = (function() {
             token: "O",
         },
     ];
+    const setPlayerNames = (playerOneName = "Player One", playerTwoName = "Player Two") => {
+        players[0].name = playerOneName;
+        players[1].name = playerTwoName;
+    }
 
     let activePlayer = players[0];
     const switchActivePlayer = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
     const getActivePlayer = () => activePlayer;
-
-    const setPlayerNames = (playerOneName = "Player One", playerTwoName = "Player Two") => {
-        players[0].name = playerOneName;
-        players[1].name = playerTwoName;
-    }
 
     let currentGameState = gameStates.ONGOING;
     const getCurrentGameState = () => currentGameState;
@@ -171,15 +168,15 @@ const GameController = (function() {
         }
     };
 
-    const printNewRoundMessage = () => {
-        boardGame.printBoard();
-        console.log(`${getActivePlayer().name}'s turn`);
-    };
-
     const restartGame = () => {
         boardGame = createBoardGame();
         currentGameState = gameStates.ONGOING;
         if (getActivePlayer() !== players[0]) switchActivePlayer();
+    };
+
+    const printNewRoundMessage = () => {
+        boardGame.printBoard();
+        console.log(`${getActivePlayer().name}'s turn`);
     };
 
     // initial game start message
@@ -197,10 +194,6 @@ const GameController = (function() {
 
 const DisplayController = (function () {
     const grid = document.querySelector(".grid");
-    const activePlayer = document.querySelector(".active-player-name");
-    const alert = document.querySelector(".alerts");
-    const startButton = document.querySelector(".start");
-
     const displayGameGrid = () => {
         grid.textContent = "";
         const boardGame = GameController.getBoardGame();
@@ -219,6 +212,7 @@ const DisplayController = (function () {
         }
     };
 
+    const alert = document.querySelector(".alerts");
     const clickHandlerBoard = (event) => {
         const currentGameState = GameController.getCurrentGameState();
         if (currentGameState === gameStates.WIN || currentGameState == gameStates.TIE) {
@@ -250,6 +244,7 @@ const DisplayController = (function () {
         }
     };
 
+    const startButton = document.querySelector(".start");
     const clickHandlerStartButton = () => {
         GameController.restartGame();
         grid.addEventListener("click", clickHandlerBoard);
@@ -258,6 +253,7 @@ const DisplayController = (function () {
     };
     startButton.addEventListener("click", clickHandlerStartButton);
 
+    const activePlayer = document.querySelector(".active-player-name");
     const displayActivePlayer = () => {
         activePlayer.textContent = GameController.getActivePlayer().name;
     };
