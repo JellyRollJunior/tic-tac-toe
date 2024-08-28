@@ -137,6 +137,13 @@ const GameController = (function (
     const getBoardGame = () => boardGame;
 
     const playRound = (row, column) => {
+        if (
+            currentGameState === gameStates.WIN ||
+            currentGameState === gameStates.TIE
+        ) {
+            console.log("Game has ended! Please restart to play again");
+            return;
+        }
         const playerToken = getActivePlayer().token;
         if (boardGame.placeToken(row, column, playerToken)) {
             console.log(
