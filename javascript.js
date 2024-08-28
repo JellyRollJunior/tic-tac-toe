@@ -276,8 +276,15 @@ const DisplayController = (function () {
     setPlayerNameButton.addEventListener("click", clickHandlerSetPlayerNamesButton);
 
     const confirmButton = document.querySelector("button[type=\"submit\"]");
+    const playerOneNameInput = document.querySelector("#player-one-name-input");
+    const playerTwoNameInput = document.querySelector("#player-two-name-input");
     const clickHandlerConfirmButton = (event) => {
         event.preventDefault();
+        const playerOneName = playerOneNameInput.value === "" ? undefined : playerOneNameInput.value;
+        const playerTwoName = playerTwoNameInput.value === "" ? undefined : playerTwoNameInput.value;
+        GameController.setPlayerNames(playerOneName, playerTwoName);
+        document.querySelector("form").reset();
+        updateScreen();
         diaglog.close();
     }
     confirmButton.addEventListener("click", clickHandlerConfirmButton);
