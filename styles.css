@@ -48,4 +48,11 @@
 dialog {
     margin: auto;
     padding: 1rem;
+    text-align: center;
+}
+
+dialog > form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
 }
